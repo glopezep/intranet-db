@@ -1,5 +1,5 @@
 module.exports = {
-  dbName: process.env.DB_NAME || 'intranet',
+  dbName: process.env.DB_NAME || 'intranetdb',
   dbUser: process.env.DB_USER || 'root',
   dbPassword: process.env.DB_PASSWORD || '',
   extra: {
