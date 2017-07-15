@@ -30,6 +30,26 @@ function getPosition () {
   }
 }
 
+function getUser () {
+  const id = uuid()
+  return {
+    id,
+    fullname: `Jhon Doe ${id}`,
+    username: `jhondoe-${id}`,
+    password: 'password123456',
+    extensionNumber: 1234,
+    email: `jhondoe${id}@test.com`
+  }
+}
+
+function getOffices () {
+  return [
+    getOffice(),
+    getOffice(),
+    getOffice()
+  ]
+}
+
 function getProjects () {
   return [
     getProject(),
@@ -50,6 +70,8 @@ module.exports = {
   getProject,
   getOffice,
   getPosition,
+  getUser,
   getProjects,
+  getOffices,
   getPositions
 }

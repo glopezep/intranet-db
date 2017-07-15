@@ -55,6 +55,20 @@ test('Save a office', async t => {
   t.is(result.description, office.description)
 })
 
+test('List all offices', async t => {
+  t.is(typeof db.getOffices, 'function', 'Should be a function')
+
+  const offices = fixtures.getOffices()
+  const saveOffices = offices.map(office => {
+    return db.saveOffice(office)
+  })
+
+  await Promise.all(saveOffices)
+
+  let result = await db.getOffices()
+  t.truthy(result.length)
+})
+
 test('Save a position', async t => {
   t.is(typeof db.savePosition, 'function', 'Should be a function')
 
@@ -79,4 +93,25 @@ test('List all positions', async t => {
 
   let result = await db.getPositions()
   t.truthy(result.length)
+})
+
+test('Save a user', async t => {
+  t.is(typeof db.saveUser, 'function', 'Should be a function')
+  const office = fixtures.getOffice()
+  const position = fixtures.getPosition()
+  let user = fixtures.getUser()
+
+  user.officeId = office.id
+  user.positionId = position.id
+
+  await db.saveOffice(office)
+  await db.savePosition(position)
+
+  const created = await db.saveUser(user)
+  const result = created.get({ plain: true })
+
+  t.is(result.id, user.id)
+  t.is(result.fullname, user.fullname)
+  t.is(result.username, user.username)
+  t.is(result.id, user.id)
 })

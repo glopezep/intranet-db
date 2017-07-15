@@ -40,10 +40,10 @@ const User = sequelize.define('user', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: Sequelize.STRING,
+  fullname: Sequelize.STRING,
   username: Sequelize.STRING,
   password: Sequelize.STRING,
-  numberExtension: Sequelize.INTEGER,
+  extensionNumber: Sequelize.STRING,
   email: Sequelize.STRING
 })
 
