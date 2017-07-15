@@ -11,6 +11,15 @@ function getProject () {
   }
 }
 
+function getPosition () {
+  const id = uuid()
+  return {
+    id,
+    name: 'Soporte IT',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing'
+  }
+}
+
 function getProjects () {
   return [
     getProject(),
@@ -21,5 +30,6 @@ function getProjects () {
 
 module.exports = {
   getProject,
+  getPosition,
   getProjects
 }

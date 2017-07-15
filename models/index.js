@@ -24,6 +24,11 @@ const Office = sequelize.define('office', {
 })
 
 const Position = sequelize.define('position', {
+  id: {
+    type: Sequelize.CHAR(36),
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
   name: Sequelize.STRING,
   description: Sequelize.STRING
 })
@@ -35,6 +40,8 @@ const User = sequelize.define('user', {
     primaryKey: true
   },
   name: Sequelize.STRING,
+  username: Sequelize.STRING,
+  password: Sequelize.STRING,
   numberExtension: Sequelize.INTEGER,
   email: Sequelize.STRING
 })
