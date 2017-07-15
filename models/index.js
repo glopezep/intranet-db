@@ -20,7 +20,8 @@ const Office = sequelize.define('office', {
     primaryKey: true
   },
   name: Sequelize.STRING,
-  number: Sequelize.STRING
+  number: Sequelize.STRING(11),
+  description: Sequelize.STRING
 })
 
 const Position = sequelize.define('position', {

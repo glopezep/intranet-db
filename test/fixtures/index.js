@@ -11,6 +11,16 @@ function getProject () {
   }
 }
 
+function getOffice () {
+  const id = uuid()
+  return {
+    id,
+    name: 'Acropolis',
+    number: '8091112222',
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing'
+  }
+}
+
 function getPosition () {
   const id = uuid()
   return {
@@ -28,8 +38,18 @@ function getProjects () {
   ]
 }
 
+function getPositions () {
+  return [
+    getPosition(),
+    getPosition(),
+    getPosition()
+  ]
+}
+
 module.exports = {
   getProject,
+  getOffice,
   getPosition,
-  getProjects
+  getProjects,
+  getPositions
 }

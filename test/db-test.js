@@ -42,6 +42,19 @@ test('List all projects', async t => {
   t.truthy(result.length)
 })
 
+test('Save a office', async t => {
+  t.is(typeof db.saveOffice, 'function', 'Should be a function')
+
+  const office = fixtures.getOffice()
+  const created = await db.saveOffice(office)
+  const result = created.get({ plain: true })
+
+  t.is(result.id, office.id)
+  t.is(result.name, office.name)
+  t.is(result.number, office.number)
+  t.is(result.description, office.description)
+})
+
 test('Save a position', async t => {
   t.is(typeof db.savePosition, 'function', 'Should be a function')
 
@@ -52,4 +65,18 @@ test('Save a position', async t => {
   t.is(result.id, position.id)
   t.is(result.name, position.name)
   t.is(result.description, position.description)
+})
+
+test('List all positions', async t => {
+  t.is(typeof db.getPositions, 'function', 'Should be a function')
+
+  const positions = fixtures.getPositions()
+  const savePositions = positions.map(position => {
+    return db.savePosition(position)
+  })
+
+  await Promise.all(savePositions)
+
+  let result = await db.getPositions()
+  t.truthy(result.length)
 })
