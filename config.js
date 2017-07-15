@@ -1,10 +1,10 @@
 module.exports = {
   dbName: process.env.DB_NAME || 'intranetdb',
-  dbUser: process.env.DB_USER || 'root',
-  dbPassword: process.env.DB_PASSWORD || '',
+  dbUser: process.env.DB_USER || 'guillermo',
+  dbPassword: process.env.DB_PASSWORD || 'Nilcia0525',
   extra: {
     host: process.env.DB_HOST || 'localhost',
-    dialect: process.env.DB_DIALECT || 'mysql',
+    dialect: process.env.DB_DIALECT || 'postgres',
     pool: {
       max: 5,
       min: 0,

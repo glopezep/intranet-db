@@ -6,10 +6,20 @@ function getProject () {
     id,
     name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
-    image: `http://intranet.test/uploads/${id}`
+    imageURL: `http://intranet.test/uploads/${id}`,
+    extURL: 'http://extlink.test/'
   }
 }
 
+function getProjects () {
+  return [
+    getProject(),
+    getProject(),
+    getProject()
+  ]
+}
+
 module.exports = {
-  getProject
+  getProject,
+  getProjects
 }
