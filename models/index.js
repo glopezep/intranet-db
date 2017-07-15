@@ -8,7 +8,8 @@ const Project = sequelize.define('project', {
     primaryKey: true
   },
   name: Sequelize.STRING,
-  description: Sequelize.STRING
+  description: Sequelize.STRING,
+  image: Sequelize.STRING
 })
 
 module.exports = {
