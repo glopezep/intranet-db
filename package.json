@@ -4,7 +4,8 @@
   "description": "Intranet Database Wrapper",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "NODE_ENV='test' ava",
+    "dev": "node --inspect"
   },
   "author": "Pawa Dominicana",
   "license": "ISC",
@@ -18,16 +19,8 @@
     "eslint-plugin-standard": "^3.0.1"
   },
   "dependencies": {
-    "babel-preset-es2017": "^6.24.1",
-    "babel-register": "^6.24.1",
-    "bluebird": "^3.5.0",
     "mysql2": "^1.3.6",
     "sequelize": "^4.3.2",
     "sequelize-hierarchy": "^1.2.0"
-  },
-  "babel": {
-    "presets": [
-      "es2017"
-    ]
   }
 }
