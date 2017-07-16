@@ -130,8 +130,8 @@ test('Delete office', async t => {
   await t.throws(db.deleteOffice('foo'), /not found/)
 })
 
-test('Save a position', async t => {
-  t.is(typeof db.savePosition, 'function', 'Should be a function')
+test('Save position', async t => {
+  t.is(typeof db.savePosition, 'function', 'savePosition Should be a function')
 
   const position = fixtures.getPosition()
   const created = await db.savePosition(position)
@@ -142,8 +142,22 @@ test('Save a position', async t => {
   t.is(result.description, position.description)
 })
 
+test('Get position', async t => {
+  t.is(typeof db.getPosition, 'function', 'getPosition Should be a function')
+
+  const position = fixtures.getPosition()
+  await db.savePosition(position)
+
+  const found = await db.getPosition(position.name)
+  const result = found.get({ plain: true })
+
+  t.is(position.id, result.id)
+  t.is(position.name, result.name)
+  t.is(position.description, result.description)
+})
+
 test('List all positions', async t => {
-  t.is(typeof db.getPositions, 'function', 'Should be a function')
+  t.is(typeof db.getPositions, 'function', 'getPositions Should be a function')
 
   const positions = fixtures.getPositions()
   const savePositions = positions.map(position => {
@@ -157,7 +171,7 @@ test('List all positions', async t => {
 })
 
 test('Save a user', async t => {
-  t.is(typeof db.saveUser, 'function', 'Should be a function')
+  t.is(typeof db.saveUser, 'function', 'saveUser Should be a function')
   const office = fixtures.getOffice()
   const position = fixtures.getPosition()
   let user = fixtures.getUser()
@@ -177,6 +191,8 @@ test('Save a user', async t => {
   t.is(user.username, result.username)
   t.is(utils.encrypt(plainPassword), result.password)
   t.is(user.email, result.email)
+  t.is(user.officeId, result.officeId)
+  t.is(user.positionId, result.positionId)
 })
 
 test('Get user', async t => {
@@ -201,11 +217,13 @@ test('Get user', async t => {
   t.is(user.username, result.username)
   t.is(user.password, result.password)
   t.is(user.email, result.email)
+  t.is(user.officeId, result.officeId)
+  t.is(user.positionId, result.positionId)
   await t.throws(db.getUser('foo'), /not found/)
 })
 
 test('Get all users', async t => {
-  t.is(typeof db.getUsers, 'function', 'getUser should be a function')
+  t.is(typeof db.getUsers, 'function', 'getUsers should be a function')
 
   const office = fixtures.getOffice()
   const position = fixtures.getPosition()
@@ -256,12 +274,14 @@ test('Delete user', async t => {
   await db.savePosition(position)
   await db.saveUser(user)
 
-  const deleted = await db.deleteUser(user.username)
+  const result = await db.deleteUser(user.username)
 
-  t.is(user.id, deleted.id)
-  t.is(user.fullname, deleted.fullname)
-  t.is(user.username, deleted.username)
-  t.is(user.password, deleted.password)
-  t.is(user.email, deleted.email)
+  t.is(user.id, result.id)
+  t.is(user.fullname, result.fullname)
+  t.is(user.username, result.username)
+  t.is(user.password, result.password)
+  t.is(user.email, result.email)
+  t.is(user.officeId, result.officeId)
+  t.is(user.positionId, result.positionId)
   await t.throws(db.deleteUser('foo'), /not found/)
 })
