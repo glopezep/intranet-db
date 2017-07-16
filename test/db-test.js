@@ -15,8 +15,8 @@ test.after.always(async t => {
   await db.drop()
 })
 
-test('Save a project', async t => {
-  t.is(typeof db.saveProject, 'function', 'Should be a function')
+test('Save project', async t => {
+  t.is(typeof db.saveProject, 'function', 'saveProject Should be a function')
 
   const project = fixtures.getProject()
   const created = await db.saveProject(project)
@@ -30,7 +30,7 @@ test('Save a project', async t => {
 })
 
 test('List all projects', async t => {
-  t.is(typeof db.getProjects, 'function', 'Should be a function')
+  t.is(typeof db.getProjects, 'function', 'getProjects Should be a function')
 
   const projects = fixtures.getProjects()
   const saveProjects = projects.map(project => {
@@ -43,8 +43,8 @@ test('List all projects', async t => {
   t.truthy(result.length)
 })
 
-test('Save a office', async t => {
-  t.is(typeof db.saveOffice, 'function', 'Should be a function')
+test('Save office', async t => {
+  t.is(typeof db.saveOffice, 'function', 'saveOffice Should be a function')
 
   const office = fixtures.getOffice()
   const created = await db.saveOffice(office)
@@ -56,8 +56,23 @@ test('Save a office', async t => {
   t.is(result.description, office.description)
 })
 
+test('Get office', async t => {
+  t.is(typeof db.getOffice, 'function', 'getOffice Should be a function')
+
+  const office = fixtures.getOffice()
+  await db.saveOffice(office)
+
+  const found = await db.getOffice(office.name)
+  const result = found.get({ plain: true })
+
+  t.is(office.id, result.id)
+  t.is(office.name, result.name)
+  t.is(office.number, result.number)
+  t.is(office.description, result.description)
+})
+
 test('List all offices', async t => {
-  t.is(typeof db.getOffices, 'function', 'Should be a function')
+  t.is(typeof db.getOffices, 'function', 'getOffices Should be a function')
 
   const offices = fixtures.getOffices()
   const saveOffices = offices.map(office => {
@@ -68,6 +83,20 @@ test('List all offices', async t => {
 
   let result = await db.getOffices()
   t.truthy(result.length)
+})
+
+test('Delete office', async t => {
+  t.is(typeof db.deleteOffice, 'function', 'deleteOffice Should be a function')
+
+  const office = fixtures.getOffice()
+  await db.saveOffice(office)
+  const result = await db.deleteOffice(office.name)
+
+  t.is(office.id, result.id)
+  t.is(office.name, result.name)
+  t.is(office.number, result.number)
+  t.is(office.description, result.description)
+  await t.throws(db.deleteOffice('foo'), /not found/)
 })
 
 test('Save a position', async t => {
