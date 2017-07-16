@@ -1,6 +1,7 @@
 import test from 'ava'
 import IntranetDB from '../'
 import fixtures from './fixtures'
+import utils from '../lib/utils'
 
 const db = new IntranetDB()
 
@@ -100,6 +101,7 @@ test('Save a user', async t => {
   const office = fixtures.getOffice()
   const position = fixtures.getPosition()
   let user = fixtures.getUser()
+  const plainPassword = user.password
 
   user.officeId = office.id
   user.positionId = position.id
@@ -110,9 +112,11 @@ test('Save a user', async t => {
   const created = await db.saveUser(user)
   const result = created.get({ plain: true })
 
-  t.is(result.id, user.id)
-  t.is(result.fullname, user.fullname)
-  t.is(result.username, user.username)
-  t.is(result.password, user.password)
-  t.is(result.password, user.password)
+  console.log(result.password)
+
+  t.is(user.id, result.id)
+  t.is(user.fullname, result.fullname)
+  t.is(user.username, result.username)
+  t.is(utils.encrypt(plainPassword), result.password)
+  t.is(user.password, result.password)
 })
