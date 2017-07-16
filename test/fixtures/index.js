@@ -4,7 +4,7 @@ function getProject () {
   const id = uuid()
   return {
     id,
-    name: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do',
+    name: `Lorem ${id}`,
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
     imageURL: `http://intranet.test/uploads/${id}`,
     extURL: 'http://extlink.test/'

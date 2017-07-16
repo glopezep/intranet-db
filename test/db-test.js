@@ -29,6 +29,21 @@ test('Save project', async t => {
   t.is(result.extURL, project.extURL)
 })
 
+test('Get project', async t => {
+  t.is(typeof db.getProject, 'function', 'getProject Should be a function')
+
+  const project = fixtures.getProject()
+  await db.saveProject(project)
+
+  const found = await db.getProject(project.name)
+  const result = found.get({ plain: true })
+
+  t.is(project.id, result.id)
+  t.is(project.name, result.name)
+  t.is(project.number, result.number)
+  t.is(project.description, result.description)
+})
+
 test('List all projects', async t => {
   t.is(typeof db.getProjects, 'function', 'getProjects Should be a function')
 
