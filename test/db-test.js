@@ -112,11 +112,34 @@ test('Save a user', async t => {
   const created = await db.saveUser(user)
   const result = created.get({ plain: true })
 
-  console.log(result.password)
-
   t.is(user.id, result.id)
   t.is(user.fullname, result.fullname)
   t.is(user.username, result.username)
   t.is(utils.encrypt(plainPassword), result.password)
+  t.is(user.password, result.password)
+})
+
+test('Get user', async t => {
+  t.is(typeof db.getUser, 'function', 'getUser should be a function')
+
+  t.is(typeof db.saveUser, 'function', 'Should be a function')
+  const office = fixtures.getOffice()
+  const position = fixtures.getPosition()
+  const user = fixtures.getUser()
+
+  user.officeId = office.id
+  user.positionId = position.id
+
+  await db.saveOffice(office)
+  await db.savePosition(position)
+  await db.saveUser(user)
+
+  const found = await db.getUser(user.username)
+  const result = found.get({ plain: true })
+
+  t.is(user.id, result.id)
+  t.is(user.fullname, result.fullname)
+  t.is(user.username, result.username)
+  t.is(user.password, result.password)
   t.is(user.password, result.password)
 })
