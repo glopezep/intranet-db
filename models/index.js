@@ -22,6 +22,10 @@ const Office = sequelize.define('office', {
   name: Sequelize.STRING,
   number: Sequelize.STRING(11),
   description: Sequelize.STRING
+}, {
+  indexes: [
+    { unique: true, fields: ['name'] }
+  ]
 })
 
 const Position = sequelize.define('position', {
@@ -32,6 +36,10 @@ const Position = sequelize.define('position', {
   },
   name: Sequelize.STRING,
   description: Sequelize.STRING
+}, {
+  indexes: [
+    { unique: true, fields: ['name'] }
+  ]
 })
 
 const User = sequelize.define('user', {
@@ -45,10 +53,15 @@ const User = sequelize.define('user', {
   password: Sequelize.STRING,
   extensionNumber: Sequelize.STRING,
   email: Sequelize.STRING
+}, {
+  indexes: [
+    { unique: true, fields: ['username', 'email'] }
+  ]
 })
 
 User.belongsTo(Position)
 User.belongsTo(Office)
+Office.hasMany(User)
 
 module.exports = {
   Project,
