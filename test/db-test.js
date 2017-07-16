@@ -113,5 +113,6 @@ test('Save a user', async t => {
   t.is(result.id, user.id)
   t.is(result.fullname, user.fullname)
   t.is(result.username, user.username)
-  t.is(result.id, user.id)
+  t.is(result.password, user.password)
+  t.is(result.password, user.password)
 })
