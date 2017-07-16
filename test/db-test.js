@@ -143,3 +143,28 @@ test('Get user', async t => {
   t.is(user.email, result.email)
   await t.throws(db.getUser('foo'), /not found/)
 })
+
+
+test('Delete user', async t => {
+  t.is(typeof db.deleteUser, 'function', 'deleteUser should be a function')
+
+  const office = fixtures.getOffice()
+  const position = fixtures.getPosition()
+  const user = fixtures.getUser()
+
+  user.officeId = office.id
+  user.positionId = position.id
+
+  await db.saveOffice(office)
+  await db.savePosition(position)
+  await db.saveUser(user)
+
+  const deleted = await db.deleteUser(user.username)
+
+  t.is(user.id, deleted.id)
+  t.is(user.fullname, deleted.fullname)
+  t.is(user.username, deleted.username)
+  t.is(user.password, deleted.password)
+  t.is(user.email, deleted.email)
+  await t.throws(db.deleteUser('foo'), /not found/)
+})
