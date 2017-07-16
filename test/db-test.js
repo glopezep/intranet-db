@@ -22,11 +22,11 @@ test('Save project', async t => {
   const created = await db.saveProject(project)
   const result = created.get({ plain: true })
 
-  t.is(result.id, project.id)
-  t.is(result.name, project.name)
-  t.is(result.description, project.description)
-  t.is(result.imageURL, project.imageURL)
-  t.is(result.extURL, project.extURL)
+  t.is(project.id, result.id)
+  t.is(project.name, result.name)
+  t.is(project.description, result.description)
+  t.is(project.imageURL, result.imageURL)
+  t.is(project.extURL, result.extURL)
 })
 
 test('Get project', async t => {
@@ -40,8 +40,9 @@ test('Get project', async t => {
 
   t.is(project.id, result.id)
   t.is(project.name, result.name)
-  t.is(project.number, result.number)
   t.is(project.description, result.description)
+  t.is(project.imageURL, result.imageURL)
+  t.is(project.extURL, result.extURL)
 })
 
 test('List all projects', async t => {
@@ -56,6 +57,21 @@ test('List all projects', async t => {
 
   let result = await db.getProjects()
   t.truthy(result.length)
+})
+
+test('Delete project', async t => {
+  t.is(typeof db.deleteProject, 'function', 'deleteProject Should be a function')
+
+  const project = fixtures.getProject()
+  await db.saveProject(project)
+  const result = await db.deleteProject(project.name)
+
+  t.is(project.id, result.id)
+  t.is(project.name, result.name)
+  t.is(project.description, result.description)
+  t.is(project.imageURL, result.imageURL)
+  t.is(project.extURL, result.extURL)
+  await t.throws(db.deleteProject('foo'), /not found/)
 })
 
 test('Save office', async t => {
