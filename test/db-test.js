@@ -144,6 +144,24 @@ test('Get user', async t => {
   await t.throws(db.getUser('foo'), /not found/)
 })
 
+test('Get all users', async t => {
+  t.is(typeof db.getUser, 'function', 'getUser should be a function')
+
+  const office = fixtures.getOffice()
+  const position = fixtures.getPosition()
+  const user = fixtures.getUser()
+
+  user.officeId = office.id
+  user.positionId = position.id
+
+  await db.saveOffice(office)
+  await db.savePosition(position)
+  await db.saveUser(user)
+
+  const result = await db.getUsers()
+
+  t.truthy(result.length)
+})
 
 test('Delete user', async t => {
   t.is(typeof db.deleteUser, 'function', 'deleteUser should be a function')
