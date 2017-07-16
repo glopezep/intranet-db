@@ -145,7 +145,7 @@ test('Get user', async t => {
 })
 
 test('Get all users', async t => {
-  t.is(typeof db.getUser, 'function', 'getUser should be a function')
+  t.is(typeof db.getUsers, 'function', 'getUser should be a function')
 
   const office = fixtures.getOffice()
   const position = fixtures.getPosition()
@@ -159,6 +159,25 @@ test('Get all users', async t => {
   await db.saveUser(user)
 
   const result = await db.getUsers()
+
+  t.truthy(result.length)
+})
+
+test('Get users by ofice', async t => {
+  t.is(typeof db.getUsersByOffice, 'function', 'getUsersByOffice should be a function')
+
+  const office = fixtures.getOffice()
+  const position = fixtures.getPosition()
+  const user = fixtures.getUser()
+
+  user.officeId = office.id
+  user.positionId = position.id
+
+  await db.saveOffice(office)
+  await db.savePosition(position)
+  await db.saveUser(user)
+
+  const result = await db.getUsersByOffice(office.id)
 
   t.truthy(result.length)
 })
