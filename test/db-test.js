@@ -116,13 +116,12 @@ test('Save a user', async t => {
   t.is(user.fullname, result.fullname)
   t.is(user.username, result.username)
   t.is(utils.encrypt(plainPassword), result.password)
-  t.is(user.password, result.password)
+  t.is(user.email, result.email)
 })
 
 test('Get user', async t => {
   t.is(typeof db.getUser, 'function', 'getUser should be a function')
 
-  t.is(typeof db.saveUser, 'function', 'Should be a function')
   const office = fixtures.getOffice()
   const position = fixtures.getPosition()
   const user = fixtures.getUser()
@@ -141,5 +140,6 @@ test('Get user', async t => {
   t.is(user.fullname, result.fullname)
   t.is(user.username, result.username)
   t.is(user.password, result.password)
-  t.is(user.password, result.password)
+  t.is(user.email, result.email)
+  await t.throws(db.getUser('foo'), /not found/)
 })
