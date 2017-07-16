@@ -170,7 +170,20 @@ test('List all positions', async t => {
   t.truthy(result.length)
 })
 
-test('Save a user', async t => {
+test('Delete position', async t => {
+  t.is(typeof db.deletePosition, 'function', 'deletePosition Should be a function')
+
+  const position = fixtures.getPosition()
+  await db.savePosition(position)
+  const result = await db.deletePosition(position.name)
+
+  t.is(position.id, result.id)
+  t.is(position.name, result.name)
+  t.is(position.description, result.description)
+  await t.throws(db.deletePosition('foo'), /not found/)
+})
+
+test('Save user', async t => {
   t.is(typeof db.saveUser, 'function', 'saveUser Should be a function')
   const office = fixtures.getOffice()
   const position = fixtures.getPosition()
