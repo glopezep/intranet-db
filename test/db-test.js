@@ -35,7 +35,7 @@ test('Get project', async t => {
   const project = fixtures.getProject()
   await db.saveProject(project)
 
-  const found = await db.getProject(project.name)
+  const found = await db.getProject(project.id)
   const result = found.get({ plain: true })
 
   t.is(project.id, result.id)
@@ -69,7 +69,7 @@ test('Update project', async t => {
 
   newProjectData.id = project.id
 
-  const updated = await db.updateProject(newProjectData, project.name)
+  const updated = await db.updateProject(project.id, newProjectData)
 
   const result = updated.get({ plain: true })
 
@@ -85,7 +85,7 @@ test('Delete project', async t => {
 
   const project = fixtures.getProject()
   await db.saveProject(project)
-  const result = await db.deleteProject(project.name)
+  const result = await db.deleteProject(project.id)
 
   t.is(project.id, result.id)
   t.is(project.name, result.name)
@@ -114,7 +114,7 @@ test('Get office', async t => {
   const office = fixtures.getOffice()
   await db.saveOffice(office)
 
-  const found = await db.getOffice(office.name)
+  const found = await db.getOffice(office.id)
   const result = found.get({ plain: true })
 
   t.is(office.id, result.id)
@@ -147,7 +147,7 @@ test('Update office', async t => {
 
   newOfficeData.id = office.id
 
-  const updated = await db.updateOffice(newOfficeData, office.name)
+  const updated = await db.updateOffice(office.id, newOfficeData)
 
   const result = updated.get({ plain: true })
 
@@ -162,7 +162,7 @@ test('Delete office', async t => {
 
   const office = fixtures.getOffice()
   await db.saveOffice(office)
-  const result = await db.deleteOffice(office.name)
+  const result = await db.deleteOffice(office.id)
 
   t.is(office.id, result.id)
   t.is(office.name, result.name)
@@ -189,7 +189,7 @@ test('Get position', async t => {
   const position = fixtures.getPosition()
   await db.savePosition(position)
 
-  const found = await db.getPosition(position.name)
+  const found = await db.getPosition(position.id)
   const result = found.get({ plain: true })
 
   t.is(position.id, result.id)
@@ -216,7 +216,7 @@ test('Delete position', async t => {
 
   const position = fixtures.getPosition()
   await db.savePosition(position)
-  const result = await db.deletePosition(position.name)
+  const result = await db.deletePosition(position.id)
 
   t.is(position.id, result.id)
   t.is(position.name, result.name)
@@ -358,7 +358,7 @@ test('Get Document Category', async t => {
   const documentCategory = fixtures.getDocumentCategory()
   await db.saveDocumentCategory(documentCategory)
 
-  const found = await db.getDocumentCategory(documentCategory.name)
+  const found = await db.getDocumentCategory(documentCategory.id)
   const result = found.get({ plain: true })
 
   t.is(documentCategory.id, result.id)
@@ -383,7 +383,7 @@ test('Delete Document Category', async t => {
   const documentCategory = fixtures.getDocumentCategory()
   await db.saveDocumentCategory(documentCategory)
 
-  const result = await db.deleteDocumentCategory(documentCategory.name)
+  const result = await db.deleteDocumentCategory(documentCategory.id)
 
   t.is(documentCategory.id, result.id)
   t.is(documentCategory.name, result.name)
@@ -418,7 +418,7 @@ test('Get Department', async t => {
   await db.saveDocumentCategory(documentCategory)
   await db.saveDepartment(department)
 
-  const result = await db.getDepartment(department.name)
+  const result = await db.getDepartment(department.id)
 
   t.is(department.id, result.id)
   t.is(department.name, result.name)
@@ -468,7 +468,7 @@ test('Delete Department', async t => {
   await db.saveDocumentCategory(documentCategory)
   await db.saveDepartment(department)
 
-  const result = await db.deleteDeparment(department.name)
+  const result = await db.deleteDeparment(department.id)
 
   t.is(department.id, result.id)
   t.is(department.name, result.name)
@@ -513,7 +513,7 @@ test('Get Document', async t => {
   await db.saveDepartment(department)
   await db.saveDocument(doc)
 
-  const found = await db.getDocument(doc.name)
+  const found = await db.getDocument(doc.id)
   const result = found.get({ plain: true })
 
   t.is(doc.id, result.id)
@@ -576,7 +576,7 @@ test('Get Document', async t => {
   await db.saveDepartment(department)
   await db.saveDocument(doc)
 
-  const result = await db.deleteDocument(doc.name)
+  const result = await db.deleteDocument(doc.id)
 
   t.is(doc.id, result.id)
   t.is(doc.name, result.name)
