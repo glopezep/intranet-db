@@ -710,3 +710,20 @@ test('Delete Document', async t => {
   t.is(doc.extension, result.extension)
   t.is(doc.departmentId, result.departmentId)
 })
+
+test('Authenticate user', async t => {
+  t.is(typeof db.authenticate, 'function', 'authenticate Should be a function')
+
+  const user = fixtures.getUser()
+  const plainPassword = user.password
+  await db.saveUser(user)
+
+  const success = await db.authenticate(user.username, plainPassword)
+  t.true(success)
+
+  const fail = await db.authenticate(user.username, 'foo')
+  t.false(fail)
+
+  const failure = await db.authenticate('foo', 'bar')
+  t.false(failure)
+})
