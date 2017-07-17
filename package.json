@@ -4,7 +4,8 @@
   "description": "Intranet Database Wrapper",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV='test' ava",
+    "lint": "eslint **/*.js",
+    "test": "yarn lint && NODE_ENV='test' ava",
     "dev": "node --inspect"
   },
   "author": "Pawa Dominicana",
