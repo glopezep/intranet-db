@@ -59,6 +59,27 @@ test('List all projects', async t => {
   t.truthy(result.length)
 })
 
+test('Update project', async t => {
+  t.is(typeof db.updateProject, 'function', 'updateProject Should be a function')
+
+  const project = fixtures.getProject()
+  await db.saveProject(project)
+
+  const newProjectData = fixtures.getProject()
+
+  newProjectData.id = project.id
+
+  const updated = await db.updateProject(newProjectData, project.name)
+
+  const result = updated.get({ plain: true })
+
+  t.is(newProjectData.id, result.id)
+  t.is(newProjectData.name, result.name)
+  t.is(newProjectData.description, result.description)
+  t.is(newProjectData.imageURL, result.imageURL)
+  t.is(newProjectData.extURL, result.extURL)
+})
+
 test('Delete project', async t => {
   t.is(typeof db.deleteProject, 'function', 'deleteProject Should be a function')
 
