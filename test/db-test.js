@@ -429,6 +429,25 @@ test('Get all Document Categories', async t => {
   t.truthy(result.length)
 })
 
+test('Update Document Category', async t => {
+  t.is(typeof db.updateDocumentCategory, 'function', 'updateDocumentCategory Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  await db.saveDocumentCategory(documentCategory)
+
+  const newdocumentCategoryData = fixtures.getDocumentCategory()
+
+  newdocumentCategoryData.id = documentCategory.id
+
+  const updated = await db.updateDocumentCategory(documentCategory.id, newdocumentCategoryData)
+
+  const result = updated.get({ plain: true })
+
+  t.is(newdocumentCategoryData.id, result.id)
+  t.is(newdocumentCategoryData.name, result.name)
+  t.is(newdocumentCategoryData.description, result.description)
+})
+
 test('Delete Document Category', async t => {
   t.is(typeof db.deleteDocumentCategory, 'function', 'deleteDocumentCategory Should be a function')
 
