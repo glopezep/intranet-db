@@ -6,12 +6,12 @@ import utils from '../lib/utils'
 const db = new IntranetDB()
 
 test.before(async t => {
-  t.is(typeof db.setup, 'function', 'Should be a function')
+  t.is(typeof db.setup, 'function', 'setup Should be a function')
   await db.setup()
 })
 
 test.after.always(async t => {
-  t.is(typeof db.drop, 'function', 'Should be a function')
+  t.is(typeof db.drop, 'function', 'drop Should be a function')
   await db.drop()
 })
 
@@ -209,6 +209,25 @@ test('List all positions', async t => {
 
   let result = await db.getPositions()
   t.truthy(result.length)
+})
+
+test('Update position', async t => {
+  t.is(typeof db.updatePosition, 'function', 'updatePosition Should be a function')
+
+  const position = fixtures.getPosition()
+  await db.savePosition(position)
+
+  const newPositionData = fixtures.getPosition()
+
+  newPositionData.id = position.id
+
+  const updated = await db.updatePosition(position.id, newPositionData)
+
+  const result = updated.get({ plain: true })
+
+  t.is(newPositionData.id, result.id)
+  t.is(newPositionData.name, result.name)
+  t.is(newPositionData.description, result.description)
 })
 
 test('Delete position', async t => {
