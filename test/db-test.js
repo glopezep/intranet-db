@@ -458,8 +458,8 @@ test('Save Document', async t => {
   t.is(doc.departmentId, result.departmentId)
 })
 
-test('Save Document', async t => {
-  t.is(typeof db.saveDocument, 'function', 'saveDocument Should be a function')
+test('Get Document', async t => {
+  t.is(typeof db.getDocument, 'function', 'getDocument Should be a function')
 
   const documentCategory = fixtures.getDocumentCategory()
   const department = fixtures.getDepartment()
@@ -481,4 +481,23 @@ test('Save Document', async t => {
   t.is(doc.fileURL, result.fileURL)
   t.is(doc.extension, result.extension)
   t.is(doc.departmentId, result.departmentId)
+})
+
+test('Get all Documents', async t => {
+  t.is(typeof db.getDocuments, 'function', 'getDocuments Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  const department = fixtures.getDepartment()
+  const doc = fixtures.getDocument()
+
+  department.documentCategoryId = documentCategory.id
+  doc.departmentId = department.id
+
+  await db.saveDocumentCategory(documentCategory)
+  await db.saveDepartment(department)
+  await db.saveDocument(doc)
+
+  const result = await db.getDocuments()
+
+  t.truthy(result.length)
 })
