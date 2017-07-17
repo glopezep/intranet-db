@@ -305,8 +305,33 @@ test('Save Document Category', async t => {
   const documentCategory = fixtures.getDocumentCategory()
   const created = await db.saveDocumentCategory(documentCategory)
   const result = created.get({ plain: true })
-  console.log(result)
+
   t.is(result.id, documentCategory.id)
   t.is(result.name, documentCategory.name)
   t.is(result.description, documentCategory.description)
+})
+
+test('Get Document Category', async t => {
+  t.is(typeof db.getDocumentCategory, 'function', 'getDocumentCategory Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  await db.saveDocumentCategory(documentCategory)
+
+  const found = await db.getDocumentCategory(documentCategory.name)
+  const result = found.get({ plain: true })
+
+  t.is(result.id, documentCategory.id)
+  t.is(result.name, documentCategory.name)
+  t.is(result.description, documentCategory.description)
+})
+
+test('Get all Document Categories', async t => {
+  t.is(typeof db.getDocumentCategory, 'function', 'getDocumentCategory Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  await db.saveDocumentCategory(documentCategory)
+
+  const result = await db.getDocumentCategories()
+
+  t.truthy(result.length)
 })
