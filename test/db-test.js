@@ -365,3 +365,21 @@ test('Save Department', async t => {
   t.is(department.name, result.name)
   t.is(department.description, result.description)
 })
+
+test('Get Department', async t => {
+  t.is(typeof db.getDepartment, 'function', 'getDepartment Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  const department = fixtures.getDepartment()
+
+  department.documentCategoryId = documentCategory.id
+
+  await db.saveDocumentCategory(documentCategory)
+  await db.saveDepartment(department)
+
+  const result = await db.getDepartment(department.name)
+
+  t.is(department.id, result.id)
+  t.is(department.name, result.name)
+  t.is(department.description, result.description)
+})
