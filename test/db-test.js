@@ -501,3 +501,22 @@ test('Get all Documents', async t => {
 
   t.truthy(result.length)
 })
+
+test('Get all Documents by department', async t => {
+  t.is(typeof db.getDocuments, 'function', 'getDocuments Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  const department = fixtures.getDepartment()
+  const doc = fixtures.getDocument()
+
+  department.documentCategoryId = documentCategory.id
+  doc.departmentId = department.id
+
+  await db.saveDocumentCategory(documentCategory)
+  await db.saveDepartment(department)
+  await db.saveDocument(doc)
+
+  const result = await db.getDocumentsByDepartment(department.id)
+
+  t.truthy(result.length)
+})
