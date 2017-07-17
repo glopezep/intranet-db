@@ -528,6 +528,29 @@ test('Get Departments by document Category', async t => {
   t.truthy(result.length)
 })
 
+test('Update deparment', async t => {
+  t.is(typeof db.updateDeparment, 'function', 'updateDeparment Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  const department = fixtures.getDepartment()
+
+  department.documentCategoryId = documentCategory.id
+
+  await db.saveDocumentCategory(documentCategory)
+  await db.saveDepartment(department)
+
+  const newDepartmentData = fixtures.getDepartment()
+
+  newDepartmentData.id = department.id
+
+  const updated = await db.updateDeparment(department.id, newDepartmentData)
+  const result = updated.get({ plain: true })
+
+  t.is(newDepartmentData.id, result.id)
+  t.is(newDepartmentData.name, result.name)
+  t.is(newDepartmentData.description, result.description)
+})
+
 test('Delete Department', async t => {
   t.is(typeof db.deleteDeparment, 'function', 'deleteDeparment Should be a function')
 
@@ -632,6 +655,7 @@ test('Get all Documents by department', async t => {
 
   t.truthy(result.length)
 })
+
 
 test('Get Document', async t => {
   t.is(typeof db.deleteDocument, 'function', 'deleteDocument Should be a function')
