@@ -137,6 +137,26 @@ test('List all offices', async t => {
   t.truthy(result.length)
 })
 
+test('Update office', async t => {
+  t.is(typeof db.updateOffice, 'function', 'updateOffice Should be a function')
+
+  const office = fixtures.getOffice()
+  await db.saveOffice(office)
+
+  const newOfficeData = fixtures.getOffice()
+
+  newOfficeData.id = office.id
+
+  const updated = await db.updateOffice(newOfficeData, office.name)
+
+  const result = updated.get({ plain: true })
+
+  t.is(newOfficeData.id, result.id)
+  t.is(newOfficeData.name, result.name)
+  t.is(newOfficeData.number, result.number)
+  t.is(newOfficeData.description, result.description)
+})
+
 test('Delete office', async t => {
   t.is(typeof db.deleteOffice, 'function', 'deleteOffice Should be a function')
 
