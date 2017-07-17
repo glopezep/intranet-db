@@ -385,7 +385,7 @@ test('Get Department', async t => {
 })
 
 test('Get Departments', async t => {
-  t.is(typeof db.getDepartment, 'function', 'getDepartments Should be a function')
+  t.is(typeof db.getDepartments, 'function', 'getDepartments Should be a function')
 
   const documentCategory = fixtures.getDocumentCategory()
   const department = fixtures.getDepartment()
@@ -396,6 +396,22 @@ test('Get Departments', async t => {
   await db.saveDepartment(department)
 
   const result = await db.getDepartments()
+
+  t.truthy(result.length)
+})
+
+test('Get Departments by document Category', async t => {
+  t.is(typeof db.getDepartmenstByDocumentCategory, 'function', 'getDepartmenstByDocumentCategory Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  const department = fixtures.getDepartment()
+
+  department.documentCategoryId = documentCategory.id
+
+  await db.saveDocumentCategory(documentCategory)
+  await db.saveDepartment(department)
+
+  const result = await db.getDepartmenstByDocumentCategory(documentCategory.id)
 
   t.truthy(result.length)
 })
