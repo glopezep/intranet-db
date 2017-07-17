@@ -298,3 +298,15 @@ test('Delete user', async t => {
   t.is(user.positionId, result.positionId)
   await t.throws(db.deleteUser('foo'), /not found/)
 })
+
+test('Save Document Category', async t => {
+  t.is(typeof db.saveDocumentCategory, 'function', 'saveDocumentCategory Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  const created = await db.saveDocumentCategory(documentCategory)
+  const result = created.get({ plain: true })
+  console.log(result)
+  t.is(result.id, documentCategory.id)
+  t.is(result.name, documentCategory.name)
+  t.is(result.description, documentCategory.description)
+})
