@@ -384,7 +384,23 @@ test('Get Department', async t => {
   t.is(department.description, result.description)
 })
 
-test('Get Department', async t => {
+test('Get Departments', async t => {
+  t.is(typeof db.getDepartment, 'function', 'getDepartments Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  const department = fixtures.getDepartment()
+
+  department.documentCategoryId = documentCategory.id
+
+  await db.saveDocumentCategory(documentCategory)
+  await db.saveDepartment(department)
+
+  const result = await db.getDepartments()
+
+  t.truthy(result.length)
+})
+
+test('Delete Department', async t => {
   t.is(typeof db.deleteDeparment, 'function', 'deleteDeparment Should be a function')
 
   const documentCategory = fixtures.getDocumentCategory()
