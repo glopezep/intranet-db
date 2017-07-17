@@ -306,9 +306,9 @@ test('Save Document Category', async t => {
   const created = await db.saveDocumentCategory(documentCategory)
   const result = created.get({ plain: true })
 
-  t.is(result.id, documentCategory.id)
-  t.is(result.name, documentCategory.name)
-  t.is(result.description, documentCategory.description)
+  t.is(documentCategory.id, result.id)
+  t.is(documentCategory.name, result.name)
+  t.is(documentCategory.description, result.description)
 })
 
 test('Get Document Category', async t => {
@@ -320,13 +320,13 @@ test('Get Document Category', async t => {
   const found = await db.getDocumentCategory(documentCategory.name)
   const result = found.get({ plain: true })
 
-  t.is(result.id, documentCategory.id)
-  t.is(result.name, documentCategory.name)
-  t.is(result.description, documentCategory.description)
+  t.is(documentCategory.id, result.id)
+  t.is(documentCategory.name, result.name)
+  t.is(documentCategory.description, result.description)
 })
 
 test('Get all Document Categories', async t => {
-  t.is(typeof db.getDocumentCategory, 'function', 'getDocumentCategory Should be a function')
+  t.is(typeof db.getDocumentCategories, 'function', 'getDocumentCategories Should be a function')
 
   const documentCategory = fixtures.getDocumentCategory()
   await db.saveDocumentCategory(documentCategory)
@@ -334,4 +334,17 @@ test('Get all Document Categories', async t => {
   const result = await db.getDocumentCategories()
 
   t.truthy(result.length)
+})
+
+test('Get Document Category', async t => {
+  t.is(typeof db.deleteDocumentCategory, 'function', 'deleteDocumentCategory Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  await db.saveDocumentCategory(documentCategory)
+
+  const result = await db.deleteDocumentCategory(documentCategory.name)
+
+  t.is(documentCategory.id, result.id)
+  t.is(documentCategory.name, result.name)
+  t.is(documentCategory.description, result.description)
 })
