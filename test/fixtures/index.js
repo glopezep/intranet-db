@@ -51,6 +51,16 @@ function getDocumentCategory () {
   }
 }
 
+function getDepartment () {
+  const id = uuid()
+  return {
+    id,
+    name: `Document Category ${id}`,
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
+    documentCategoryId: id
+  }
+}
+
 function getOffices () {
   return [
     getOffice(),
@@ -83,14 +93,24 @@ function getDocumentCategories () {
   ]
 }
 
+function getDepartments () {
+  return [
+    getDepartment(),
+    getDepartment(),
+    getDepartment()
+  ]
+}
+
 module.exports = {
   getProject,
   getOffice,
   getPosition,
   getUser,
+  getDocumentCategory,
+  getDepartment,
   getProjects,
   getOffices,
   getPositions,
-  getDocumentCategory,
-  getDocumentCategories
+  getDocumentCategories,
+  getDepartments
 }

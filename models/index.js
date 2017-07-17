@@ -96,10 +96,10 @@ const Document = sequelize.define('document', {
 User.belongsTo(Position)
 User.belongsTo(Office)
 Office.hasMany(User)
-Department.belongsTo(DocumentCategory)
 DocumentCategory.hasMany(Department)
-Document.belongsTo(Department)
+Department.belongsTo(DocumentCategory)
 Department.hasMany(Document)
+Document.belongsTo(Department)
 
 module.exports = {
   Project,
