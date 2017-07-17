@@ -61,6 +61,18 @@ function getDepartment () {
   }
 }
 
+function getDocument () {
+  const id = uuid()
+  return {
+    id,
+    name: `Document Category ${id}`,
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
+    fileURL: `http://intranet.test/uploads/${id}`,
+    extension: 'pdf',
+    deparmentId: id
+  }
+}
+
 function getOffices () {
   return [
     getOffice(),
@@ -101,6 +113,14 @@ function getDepartments () {
   ]
 }
 
+function getDocuments () {
+  return [
+    getDocument(),
+    getDocument(),
+    getDocument()
+  ]
+}
+
 module.exports = {
   getProject,
   getOffice,
@@ -108,9 +128,11 @@ module.exports = {
   getUser,
   getDocumentCategory,
   getDepartment,
+  getDocument,
   getProjects,
   getOffices,
   getPositions,
   getDocumentCategories,
-  getDepartments
+  getDepartments,
+  getDocuments
 }

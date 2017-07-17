@@ -433,3 +433,27 @@ test('Delete Department', async t => {
   t.is(department.name, result.name)
   t.is(department.description, result.description)
 })
+
+test('Save Document', async t => {
+  t.is(typeof db.saveDocument, 'function', 'saveDocument Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  const department = fixtures.getDepartment()
+  const doc = fixtures.getDocument()
+
+  department.documentCategoryId = documentCategory.id
+  doc.departmentId = department.id
+
+  await db.saveDocumentCategory(documentCategory)
+  await db.saveDepartment(department)
+  const created = await db.saveDocument(doc)
+
+  const result = created.get({ plain: true })
+
+  t.is(doc.id, result.id)
+  t.is(doc.name, result.name)
+  t.is(doc.description, result.description)
+  t.is(doc.fileURL, result.fileURL)
+  t.is(doc.extension, result.extension)
+  t.is(doc.departmentId, result.departmentId)
+})
