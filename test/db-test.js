@@ -520,3 +520,27 @@ test('Get all Documents by department', async t => {
 
   t.truthy(result.length)
 })
+
+test('Get Document', async t => {
+  t.is(typeof db.deleteDocument, 'function', 'deleteDocument Should be a function')
+
+  const documentCategory = fixtures.getDocumentCategory()
+  const department = fixtures.getDepartment()
+  const doc = fixtures.getDocument()
+
+  department.documentCategoryId = documentCategory.id
+  doc.departmentId = department.id
+
+  await db.saveDocumentCategory(documentCategory)
+  await db.saveDepartment(department)
+  await db.saveDocument(doc)
+
+  const result = await db.deleteDocument(doc.name)
+
+  t.is(doc.id, result.id)
+  t.is(doc.name, result.name)
+  t.is(doc.description, result.description)
+  t.is(doc.fileURL, result.fileURL)
+  t.is(doc.extension, result.extension)
+  t.is(doc.departmentId, result.departmentId)
+})
