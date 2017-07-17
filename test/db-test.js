@@ -656,7 +656,6 @@ test('Get all Documents by department', async t => {
   t.truthy(result.length)
 })
 
-
 test('Get Document', async t => {
   t.is(typeof db.deleteDocument, 'function', 'deleteDocument Should be a function')
 
