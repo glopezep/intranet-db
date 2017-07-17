@@ -56,8 +56,7 @@ function getDepartment () {
   return {
     id,
     name: `Document Category ${id}`,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
-    documentCategoryId: id
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing'
   }
 }
 
@@ -68,8 +67,7 @@ function getDocument () {
     name: `Document Category ${id}`,
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing',
     fileURL: `http://intranet.test/uploads/${id}`,
-    extension: 'pdf',
-    deparmentId: id
+    extension: 'pdf'
   }
 }
 

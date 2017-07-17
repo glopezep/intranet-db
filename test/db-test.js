@@ -333,6 +333,39 @@ test('Get users by ofice', async t => {
   t.truthy(result.length)
 })
 
+test('Update user', async t => {
+  t.is(typeof db.updateUser, 'function', 'updateUser Should be a function')
+
+  const office = fixtures.getOffice()
+  const position = fixtures.getPosition()
+  const user = fixtures.getUser()
+
+  user.officeId = office.id
+  user.positionId = position.id
+
+  await db.saveOffice(office)
+  await db.savePosition(position)
+  await db.saveUser(user)
+
+  const newUserData = fixtures.getUser()
+
+  newUserData.id = user.id
+  newUserData.officeId = user.officeId
+  newUserData.positionId = user.positionId
+
+  const updated = await db.updateUser(user.username, newUserData)
+
+  const result = updated.get({ plain: true })
+
+  t.is(newUserData.id, result.id)
+  t.is(newUserData.fullname, result.fullname)
+  t.is(newUserData.username, result.username)
+  t.is(newUserData.password, result.password)
+  t.is(newUserData.email, result.email)
+  t.is(newUserData.officeId, result.officeId)
+  t.is(newUserData.positionId, result.positionId)
+})
+
 test('Delete user', async t => {
   t.is(typeof db.deleteUser, 'function', 'deleteUser should be a function')
 
