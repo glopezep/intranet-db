@@ -139,6 +139,22 @@ test('List all projects', async t => {
   t.truthy(result.length)
 })
 
+test('Get all projects by project category', async t => {
+  t.is(typeof db.getProjectsByProjectCategory, 'function', 'getProjectsByProjectCategory Should be a function')
+
+  const projectCategory = fixtures.getProjectCategory()
+  const project = fixtures.getProject()
+
+  project.projectCategoryId = projectCategory.id
+
+  await db.saveProjectCategory(projectCategory)
+  await db.saveProject(project)
+
+  let result = await db.getProjectsByProjectCategory(projectCategory.id)
+
+  t.truthy(result.length)
+})
+
 test('Update project', async t => {
   t.is(typeof db.updateProject, 'function', 'updateProject Should be a function')
 
