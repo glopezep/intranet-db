@@ -15,6 +15,75 @@ test.after.always(async t => {
   await db.drop()
 })
 
+test('Save project category', async t => {
+  t.is(typeof db.saveProjectCategory, 'function', 'saveProjectCategory Should be a function')
+
+  const projectCategory = fixtures.getProjectCategory()
+  const created = await db.saveProjectCategory(projectCategory)
+  const result = created.get({ plain: true })
+
+  t.is(projectCategory.id, result.id)
+  t.is(projectCategory.name, result.name)
+  t.is(projectCategory.description, result.description)
+})
+
+test('Get project category', async t => {
+  t.is(typeof db.getProjectCategory, 'function', 'getProjectCategory Should be a function')
+
+  const projectCategory = fixtures.getProjectCategory()
+  await db.saveProjectCategory(projectCategory)
+
+  const found = await db.getProjectCategory(projectCategory.id)
+  const result = found.get({ plain: true })
+
+  t.is(projectCategory.id, result.id)
+  t.is(projectCategory.name, result.name)
+  t.is(projectCategory.description, result.description)
+})
+
+test('Get all project category', async t => {
+  t.is(typeof db.getProjectCategories, 'function', 'getProjectCategories Should be a function')
+
+  const projectCategory = fixtures.getProjectCategory()
+  await db.saveProjectCategory(projectCategory)
+
+  const result = await db.getProjectCategories()
+
+  t.truthy(result.length)
+})
+
+test('Update project category', async t => {
+  t.is(typeof db.updateProjectCategory, 'function', 'updateProjectCategories Should be a function')
+
+  const projectCategory = fixtures.getProjectCategory()
+  await db.saveProjectCategory(projectCategory)
+
+  const newProjectCategoryData = fixtures.getProjectCategory()
+
+  newProjectCategoryData.id = projectCategory.id
+
+  const updated = await db.updateProjectCategory(projectCategory.id, newProjectCategoryData)
+
+  const result = updated.get({ plain: true })
+
+  t.is(newProjectCategoryData.id, result.id)
+  t.is(newProjectCategoryData.name, result.name)
+  t.is(newProjectCategoryData.description, result.description)
+})
+
+test('Delete project category', async t => {
+  t.is(typeof db.deleteProjectCategory, 'function', 'deleteProject Should be a function')
+
+  const projectCategory = fixtures.getProjectCategory()
+  await db.saveProjectCategory(projectCategory)
+  const result = await db.deleteProjectCategory(projectCategory.id)
+
+  t.is(projectCategory.id, result.id)
+  t.is(projectCategory.name, result.name)
+  t.is(projectCategory.description, result.description)
+  await t.throws(db.deleteProject('foo'), /not found/)
+})
+
 test('Save project', async t => {
   t.is(typeof db.saveProject, 'function', 'saveProject Should be a function')
 

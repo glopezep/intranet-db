@@ -13,6 +13,16 @@ const Project = sequelize.define('project', {
   extURL: Sequelize.STRING
 })
 
+const ProjectCategory = sequelize.define('projectCategory', {
+  id: {
+    type: Sequelize.CHAR(36),
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true
+  },
+  name: Sequelize.STRING,
+  description: Sequelize.STRING
+})
+
 const Office = sequelize.define('office', {
   id: {
     type: Sequelize.CHAR(36),
@@ -93,6 +103,8 @@ const Document = sequelize.define('document', {
   extension: Sequelize.STRING
 })
 
+Project.belongsTo(ProjectCategory)
+ProjectCategory.hasMany(Project)
 User.belongsTo(Position)
 User.belongsTo(Office)
 Office.hasMany(User)
@@ -103,6 +115,7 @@ Document.belongsTo(Department)
 
 module.exports = {
   Project,
+  ProjectCategory,
   Office,
   Position,
   User,
