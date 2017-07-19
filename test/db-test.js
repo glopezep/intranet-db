@@ -86,8 +86,13 @@ test('Delete project category', async t => {
 
 test('Save project', async t => {
   t.is(typeof db.saveProject, 'function', 'saveProject Should be a function')
-
+  const projectCategory = fixtures.getProjectCategory()
   const project = fixtures.getProject()
+
+  project.projectCategoryId = projectCategory.id
+
+  await db.saveProjectCategory(projectCategory)
+
   const created = await db.saveProject(project)
   const result = created.get({ plain: true })
 
@@ -100,8 +105,12 @@ test('Save project', async t => {
 
 test('Get project', async t => {
   t.is(typeof db.getProject, 'function', 'getProject Should be a function')
-
+  const projectCategory = fixtures.getProjectCategory()
   const project = fixtures.getProject()
+
+  project.projectCategoryId = projectCategory.id
+
+  await db.saveProjectCategory(projectCategory)
   await db.saveProject(project)
 
   const found = await db.getProject(project.id)
@@ -117,26 +126,34 @@ test('Get project', async t => {
 test('List all projects', async t => {
   t.is(typeof db.getProjects, 'function', 'getProjects Should be a function')
 
-  const projects = fixtures.getProjects()
-  const saveProjects = projects.map(project => {
-    return db.saveProject(project)
-  })
+  const projectCategory = fixtures.getProjectCategory()
+  const project = fixtures.getProject()
 
-  await Promise.all(saveProjects)
+  project.projectCategoryId = projectCategory.id
+
+  await db.saveProjectCategory(projectCategory)
+  await db.saveProject(project)
 
   let result = await db.getProjects()
+
   t.truthy(result.length)
 })
 
 test('Update project', async t => {
   t.is(typeof db.updateProject, 'function', 'updateProject Should be a function')
 
+  const projectCategory = fixtures.getProjectCategory()
   const project = fixtures.getProject()
+
+  project.projectCategoryId = projectCategory.id
+
+  await db.saveProjectCategory(projectCategory)
   await db.saveProject(project)
 
   const newProjectData = fixtures.getProject()
 
   newProjectData.id = project.id
+  newProjectData.projectCategoryId = projectCategory.id
 
   const updated = await db.updateProject(project.id, newProjectData)
 
@@ -152,8 +169,14 @@ test('Update project', async t => {
 test('Delete project', async t => {
   t.is(typeof db.deleteProject, 'function', 'deleteProject Should be a function')
 
+  const projectCategory = fixtures.getProjectCategory()
   const project = fixtures.getProject()
+
+  project.projectCategoryId = projectCategory.id
+
+  await db.saveProjectCategory(projectCategory)
   await db.saveProject(project)
+
   const result = await db.deleteProject(project.id)
 
   t.is(project.id, result.id)
@@ -782,9 +805,16 @@ test('Delete Document', async t => {
 
 test('Authenticate user', async t => {
   t.is(typeof db.authenticate, 'function', 'authenticate Should be a function')
-
+  const position = fixtures.getPosition()
+  const office = fixtures.getOffice()
   const user = fixtures.getUser()
   const plainPassword = user.password
+
+  user.positionId = position.id
+  user.officeId = office.id
+
+  await db.savePosition(position)
+  await db.saveOffice(office)
   await db.saveUser(user)
 
   const success = await db.authenticate(user.username, plainPassword)

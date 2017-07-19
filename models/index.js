@@ -7,10 +7,22 @@ const Project = sequelize.define('project', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: Sequelize.STRING,
-  description: Sequelize.STRING,
-  imageURL: Sequelize.STRING,
-  extURL: Sequelize.STRING
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  imageURL: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  extURL: {
+    type: Sequelize.STRING,
+    allowNull: true
+  }
 })
 
 const ProjectCategory = sequelize.define('projectCategory', {
@@ -19,8 +31,14 @@ const ProjectCategory = sequelize.define('projectCategory', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: Sequelize.STRING,
-  description: Sequelize.STRING
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 })
 
 const Office = sequelize.define('office', {
@@ -29,9 +47,18 @@ const Office = sequelize.define('office', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: Sequelize.STRING,
-  number: Sequelize.STRING(11),
-  description: Sequelize.STRING
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  number: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 }, {
   indexes: [
     { unique: true, fields: ['name'] }
@@ -44,8 +71,14 @@ const Position = sequelize.define('position', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: Sequelize.STRING,
-  description: Sequelize.STRING
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 }, {
   indexes: [
     { unique: true, fields: ['name'] }
@@ -58,11 +91,26 @@ const User = sequelize.define('user', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  fullname: Sequelize.STRING,
-  username: Sequelize.STRING,
-  password: Sequelize.STRING,
-  extensionNumber: Sequelize.STRING,
-  email: Sequelize.STRING
+  fullname: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  username: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  password: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  extensionNumber: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 }, {
   indexes: [
     { unique: true, fields: ['username', 'email'] }
@@ -75,8 +123,14 @@ const DocumentCategory = sequelize.define('documentCategory', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: Sequelize.STRING,
-  description: Sequelize.STRING
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 })
 
 const Department = sequelize.define('department', {
@@ -85,8 +139,14 @@ const Department = sequelize.define('department', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: Sequelize.STRING,
-  description: Sequelize.STRING
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 }, {
   hierarchy: true
 })
@@ -97,21 +157,33 @@ const Document = sequelize.define('document', {
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true
   },
-  name: Sequelize.STRING,
-  description: Sequelize.STRING,
-  fileURL: Sequelize.STRING,
-  extension: Sequelize.STRING
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  fileURL: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  extension: {
+    type: Sequelize.STRING,
+    allowNull: false
+  }
 })
 
-Project.belongsTo(ProjectCategory)
+Project.belongsTo(ProjectCategory, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
 ProjectCategory.hasMany(Project)
-User.belongsTo(Position)
-User.belongsTo(Office)
+User.belongsTo(Position, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
+User.belongsTo(Office, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
 Office.hasMany(User)
 DocumentCategory.hasMany(Department)
-Department.belongsTo(DocumentCategory)
+Department.belongsTo(DocumentCategory, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
 Department.hasMany(Document)
-Document.belongsTo(Department)
+Document.belongsTo(Department, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
 
 module.exports = {
   Project,
