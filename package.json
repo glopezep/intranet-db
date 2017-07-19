@@ -1,11 +1,11 @@
 {
   "name": "intranet-db",
-  "version": "0.0.1",
+  "version": "0.40.0",
   "description": "Intranet Database Wrapper",
   "main": "index.js",
   "scripts": {
     "lint": "eslint **/*.js",
-    "test": "yarn lint && NODE_ENV='test' ava",
+    "test": "yarn lint || npm run lint && NODE_ENV='test' ava",
     "dev": "node --inspect"
   },
   "author": "Pawa Dominicana",
