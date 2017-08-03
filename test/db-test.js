@@ -636,8 +636,8 @@ test('Get Departments by document Category', async t => {
   t.truthy(result.length)
 })
 
-test('Update deparment', async t => {
-  t.is(typeof db.updateDeparment, 'function', 'updateDeparment Should be a function')
+test('Update department', async t => {
+  t.is(typeof db.updateDepartment, 'function', 'updateDeparment Should be a function')
 
   const documentCategory = fixtures.getDocumentCategory()
   const department = fixtures.getDepartment()
@@ -651,7 +651,7 @@ test('Update deparment', async t => {
 
   newDepartmentData.id = department.id
 
-  const updated = await db.updateDeparment(department.id, newDepartmentData)
+  const updated = await db.updateDepartment(department.id, newDepartmentData)
   const result = updated.get({ plain: true })
 
   t.is(newDepartmentData.id, result.id)
@@ -660,7 +660,7 @@ test('Update deparment', async t => {
 })
 
 test('Delete Department', async t => {
-  t.is(typeof db.deleteDeparment, 'function', 'deleteDeparment Should be a function')
+  t.is(typeof db.deleteDepartment, 'function', 'deleteDeparment Should be a function')
 
   const documentCategory = fixtures.getDocumentCategory()
   const department = fixtures.getDepartment()
@@ -670,7 +670,7 @@ test('Delete Department', async t => {
   await db.saveDocumentCategory(documentCategory)
   await db.saveDepartment(department)
 
-  const result = await db.deleteDeparment(department.id)
+  const result = await db.deleteDepartment(department.id)
 
   t.is(department.id, result.id)
   t.is(department.name, result.name)
