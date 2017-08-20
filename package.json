@@ -21,6 +21,7 @@
     "uuid": "^3.1.0"
   },
   "dependencies": {
+    "mysql2": "^1.4.1",
     "pg": "^6.4.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.3.2",

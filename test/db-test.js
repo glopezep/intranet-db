@@ -586,6 +586,34 @@ test('Save Department', async t => {
   t.is(department.description, result.description)
 })
 
+test('Save Department in deparment', async t => {
+  t.is(typeof db.saveDepartment, 'function', 'saveDepartment Should be a function')
+  const documentCategory = fixtures.getDocumentCategory()
+  const department = fixtures.getDepartment()
+  const departmentChild1 = fixtures.getDepartment()
+  const departmentChild2 = fixtures.getDepartment()
+  const departmentChild3 = fixtures.getDepartment()
+
+  department.documentCategoryId = documentCategory.id
+  departmentChild1.parentId = department.id
+  departmentChild2.parentId = department.id
+  departmentChild3.parentId = departmentChild2.id
+
+  await db.saveDocumentCategory(documentCategory)
+
+  await db.saveDepartment(department) // eslint-disable-line
+  await db.saveDepartment(departmentChild1)
+  await db.saveDepartment(departmentChild2)
+  await db.saveDepartment(departmentChild3)
+  const found = await db.getDepartment(departmentChild3.id) // eslint-disable-line
+  const result = found.get({ plain: true }) // eslint-disable-line
+
+  t.pass()
+  // t.is(department.id, result.id)
+  // t.is(department.name, result.name)
+  // t.is(department.description, result.description)
+})
+
 test('Get Department', async t => {
   t.is(typeof db.getDepartment, 'function', 'getDepartment Should be a function')
 
